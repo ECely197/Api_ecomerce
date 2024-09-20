@@ -81,7 +81,7 @@ export const getById = async (req, res) => {
 }
 
 // Soft delete a product
- export const deleted = async (req, res ) => {
+ export const destroy = async (req, res ) => {
   try {
     const productToDelete = await Product.findById(req.params.id);
 
@@ -99,7 +99,13 @@ export const getById = async (req, res) => {
   }
 }
 
-
+export default {
+  getAll: getAll,
+  getById: getById,
+  create: create,
+  update: update,
+  destroy: destroy,
+};
 
 
 
