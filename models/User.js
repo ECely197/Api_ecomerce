@@ -3,36 +3,21 @@ import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema(
   {
-    firstName: {
-      type: String,
-      required: true,
-    },
-    lastName: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    address: String,
-    phone: Number,
+    firstName:  String,
+      
+    lastName: String,
+      
+    email:String,
+    
+    password: String,
+     
+    addres: String,
+
+    phone: String,
     deletedAt: {
       type: Date,
       default: null,
-    },
-  },
-  {
-    timestamps: true,
-    toJSON: {
-      virtuals: true,
-    },
-  }
-);
+    },},);
 
 userSchema.virtual("fullName").get(function () {
   return this.firstName + " " + this.lastName;

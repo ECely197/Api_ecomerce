@@ -26,7 +26,7 @@ async function getAll(req, res) {
   
   async function create(req, res) {
     try {
-      const { firstName, lastName, email, password,address, age } = req.body;
+      const { firstName, lastName, email, password, address, phone } = req.body;
   
       const newUser = await User.create({
         firstName,
@@ -34,8 +34,8 @@ async function getAll(req, res) {
         email,
         password,
         address,
-        age,
-  
+        phone,
+
       });
   
       return res.status(201).json("User created!");
@@ -59,7 +59,7 @@ async function getAll(req, res) {
   
       await userToUpdate.save();
   
-      return res.json("El usuario ha sifo actualizo");
+      return res.json("El usuario ha sido actualizado");
     } else {
       return res.json("No existe usuario con el ID mencionado");
     }

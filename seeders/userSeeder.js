@@ -10,8 +10,8 @@ async function userSeeder() {
     lastName: "Barragan",
     email: "Carlos@starwars.com",
     password: process.env.SEEDER_USER_PASSWORD,
-    avatar: "1.png",
-    age: 30,
+    phone: 1323123,
+    address: 1239120341,
   });
 
   console.log("[Seeder] User created!");
