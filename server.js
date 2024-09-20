@@ -10,13 +10,6 @@ import authRoutes from "./routes/authRoutes.js";
 const app = express();
 app.use(express.json());
 connectDB();
-
-
-const uploadDir = path.join(import.meta.dirname, "public/avatars");
-
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
 //rutas
 app.use(userRoutes);
 app.use(authRoutes);

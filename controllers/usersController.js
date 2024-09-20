@@ -27,7 +27,6 @@ async function getAll(req, res) {
   async function create(req, res) {
     try {
       const { firstName, lastName, email, password,address, age } = req.body;
-      const avatar = req.file.filename;
   
       const newUser = await User.create({
         firstName,
@@ -36,7 +35,7 @@ async function getAll(req, res) {
         password,
         address,
         age,
-        avatar,
+  
       });
   
       return res.status(201).json("User created!");

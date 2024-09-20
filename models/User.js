@@ -20,7 +20,6 @@ const userSchema = mongoose.Schema(
       required: true,
     },
     address: String,
-    avatar: String,
     phone: Number,
     deletedAt: {
       type: Date,
