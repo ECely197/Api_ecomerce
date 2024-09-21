@@ -55,23 +55,31 @@ async function update(req, res) {
   }
 }
 
-async function destroy(req, res) {
-  const categoryDestroy = await categoryModel.findById(req.params.id);
-  const nuevoArrayDeCategorias = [];
-  for (const category of categories) {
-    if (category.id !== categoryId) {
-      nuevoArrayDeCategory.push(category);
+async function deleted(req, res) {
+  try {
+    const categoryId = req.params.id; // Get the category ID from the request parameters
+    const categoryDeleted = await categoryModel.findById(categoryId);
+
+    if (!categoryDeleted) {
+      return res.status(404).json({ message: "Categoría no encontrada" });
     }
+
+    // Delete the category from the database
+    await categoryModel.deleteOne({ _id: categoryId });
+
+    return res.json({
+      message: "Se ha eliminado la categoría",
+    });
+  } catch (error) {
+    console.error("Error al eliminar la categoría:", error);
+    return res.status(500).json({ message: "Error interno del servidor" });
   }
-  products = nuevoArrayDeCategories;
-  return res.json({
-    message: "Se ha eliminado la categoria",
-  });
 }
+
 export default {
   getAll: getAll,
   getById: getById,
   create: create,
   update: update,
-  destroy: destroy,
+  deleted: deleted,
 };
