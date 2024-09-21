@@ -12,12 +12,12 @@ const productSchema = new mongoose.Schema(
       
     stock: Number,
       
-   // categoryID: {
-    //  type: mongoose.Schema.Types.ObjectId, //  Reference to the Category model
-     // ref: "Category", //  Assuming a "Category" model exists
-      // required: true,
+   categoryID: {
+     type: mongoose.Schema.Types.ObjectId, //  Reference to the Category model
+     ref: "category", 
+      required: true,
     },
-  //},
+  },
   {
     timestamps: true, 
   }
