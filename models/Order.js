@@ -38,15 +38,11 @@ const orderSchema = new mongoose.Schema({
     type: Date,
     default: null,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+},
+{
+  timestamps: true,
+},
+);
 
 const Order = mongoose.model("Order", orderSchema);
 

@@ -1,6 +1,6 @@
 import Order from "../models/Order.js";
 
-export const getAllOrders = async (req, res) => {
+async function getAllOrders(req, res) {
   try {
     const orders = await Order.find({ deleteAt: null });
     return res.json(200).json(orders);
@@ -9,9 +9,9 @@ export const getAllOrders = async (req, res) => {
       .status(500)
       .json({ message: `Error al buscar todos los pedidos`, error });
   }
-};
+}
 
-export const getORderById = async (req, res) => {
+async function getORderById(req, res) {
   try {
     const orderId = await Order.findById(req.params.id);
     if (!orderId || orderId.deleteAt) {
@@ -23,4 +23,27 @@ export const getORderById = async (req, res) => {
       .status(500)
       .json({ message: "Error al buscar el pedido", error });
   }
+}
+
+async function createOrder(req, res) {
+  const { user, products, status } = req.body;
+  try {
+    const newOrder = new Order({
+      user,
+      products,
+      status,
+    });
+    await newOrder.save();
+    return res.status(201).json(newOrder);
+  } catch (error) {
+    return res.status(500).json({ message: "Error al crear el pedido", error });
+  }
+}
+
+
+
+export default {
+  getAllOrders: getAllOrders,
+  getORderById: getORderById,
+  createOrder: createOrder,
 };
