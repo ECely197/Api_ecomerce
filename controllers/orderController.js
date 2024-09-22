@@ -26,11 +26,12 @@ async function getORderById(req, res) {
 }
 
 async function createOrder(req, res) {
-  const { user, products, status } = req.body;
+  const { user, products, totalAmount, status } = req.body;
   try {
     const newOrder = new Order({
       user,
       products,
+      totalAmount,
       status,
     });
     await newOrder.save();

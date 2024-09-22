@@ -6,7 +6,6 @@ import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 
-
 const app = express();
 app.use(express.json());
 connectDB();
@@ -16,7 +15,6 @@ app.use(userRoutes);
 app.use(categoryRoutes);
 app.use(productRoutes);
 app.use(orderRoutes);
-
 
 app.listen(3000, () => {
   console.log("El servidor está corriendo en el puerto 3000");
