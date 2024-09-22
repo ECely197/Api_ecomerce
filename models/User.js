@@ -1,23 +1,23 @@
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 
-const userSchema = mongoose.Schema(
-  {
-    firstName:  String,
-      
-    lastName: String,
-      
-    email:String,
-    
-    password: String,
-     
-    addres: String,
+const userSchema = mongoose.Schema({
+  firstName: String,
 
-    phone: String,
-    deletedAt: {
-      type: Date,
-      default: null,
-    },},);
+  lastName: String,
+
+  email: String,
+
+  password: String,
+
+  addres: String,
+
+  phone: String,
+  deletedAt: {
+    type: Date,
+    default: null,
+  },
+});
 
 userSchema.virtual("fullName").get(function () {
   return this.firstName + " " + this.lastName;

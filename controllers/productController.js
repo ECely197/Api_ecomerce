@@ -1,22 +1,20 @@
 import Product from "../models/product.js";
 
-// Get all products
- export const getAll = async (req, res) => {
+export const getAll = async (req, res) => {
   try {
-    const products = await Product.find({ deletedAt: null }); // 'products' instead of 'product'
+    const products = await Product.find({ deletedAt: null });
     return res.json(products);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Error retrieving products" });
   }
-}
+};
 
-// Get product by ID
 export const getById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
-    
-    if (!product || product.deletedAt) { // Ensure the product exists and is not deleted
+
+    if (!product || product.deletedAt) {
       return res.status(404).json({ message: "Product not found" });
     }
 
@@ -25,10 +23,9 @@ export const getById = async (req, res) => {
     console.error(error);
     return res.status(500).json({ message: "Error retrieving product" });
   }
-}
+};
 
-// Create a new product
- export const create = async (req, res) => {
+export const create = async (req, res) => {
   try {
     const { productID, name, description, price, stock, categoryID } = req.body;
 
@@ -38,20 +35,21 @@ export const getById = async (req, res) => {
       description,
       price,
       stock,
-      categoryID
+      categoryID,
     });
-    
+
     console.log("product succesfully created ");
 
-    return res.status(201).json({ message: "Product created successfully", product: newProduct });
+    return res
+      .status(201)
+      .json({ message: "Product created successfully", product: newProduct });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
-// Update a product by ID
- export const update = async (req, res) => {
+export const update = async (req, res) => {
   try {
     const productToUpdate = await Product.findById(req.params.id);
 
@@ -61,32 +59,35 @@ export const getById = async (req, res) => {
 
     const { productID, name, description, price, stock, categoryID } = req.body;
 
-    // Use Object.assign to update fields in one step
     Object.assign(productToUpdate, {
       productID: productID || productToUpdate.productID,
       name: name || productToUpdate.name,
       description: description || productToUpdate.description,
       price: price || productToUpdate.price,
       stock: stock || productToUpdate.stock,
-      categoryID: categoryID || productToUpdate.categoryID
+      categoryID: categoryID || productToUpdate.categoryID,
     });
 
     await productToUpdate.save();
 
-    return res.json({ message: "Product updated successfully", product: productToUpdate });
+    return res.json({
+      message: "Product updated successfully",
+      product: productToUpdate,
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
-// Soft delete a product
- export const destroy = async (req, res ) => {
+export const destroy = async (req, res) => {
   try {
     const productToDelete = await Product.findById(req.params.id);
 
     if (!productToDelete || productToDelete.deletedAt) {
-      return res.status(404).json({ message: "Product not found or already deleted" });
+      return res
+        .status(404)
+        .json({ message: "Product not found or already deleted" });
     }
 
     productToDelete.deletedAt = Date.now();
@@ -97,7 +98,7 @@ export const getById = async (req, res) => {
     console.error(error);
     return res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
 export default {
   getAll: getAll,
@@ -106,8 +107,3 @@ export default {
   update: update,
   destroy: destroy,
 };
-
-
-
-
-
