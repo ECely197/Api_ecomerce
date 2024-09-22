@@ -40,10 +40,43 @@ async function createOrder(req, res) {
   }
 }
 
+async function updateOrder(req, res) {
+  const updateOrder = await Order.findById(req.params.id);
+  try {
+    if (updateOrder !== null) {
+      const { products, totalAmount, status } = req.body;
+      updateOrder.products = products || updateOrder.products;
+      updateOrder.totalAmount = totalAmount || updateOrder.totalAmount;
+      updateOrder.status = status || updateOrder.save;
 
+      await updateOrder.save();
+
+      return res.status(200).json("El pedido ha sido actualizado");
+    }
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Error al actualizar el pedido", error });
+  }
+}
+async function softDeleteOrder(req, res) {
+  const orderToDelete = await Order.findById(req.params.id);
+
+  try {
+    orderToDelete.deleteAt = Date.now();
+    orderToDelete.save();
+    return res.status(200).json("El pedido ha sido elminado");
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Error al eliminar el pedido", error });
+  }
+}
 
 export default {
   getAllOrders: getAllOrders,
   getORderById: getORderById,
   createOrder: createOrder,
+  updateOrder: updateOrder,
+  softDeleteOrder: softDeleteOrder,
 };
