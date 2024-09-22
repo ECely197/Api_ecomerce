@@ -3,7 +3,7 @@ import Order from "../models/Order.js";
 async function getAllOrders(req, res) {
   try {
     const orders = await Order.find({ deleteAt: null });
-    return res.json(200).json(orders);
+    return res.status(200).json(orders);
   } catch (error) {
     return res
       .status(500)
@@ -47,7 +47,7 @@ async function updateOrder(req, res) {
       const { products, totalAmount, status } = req.body;
       updateOrder.products = products || updateOrder.products;
       updateOrder.totalAmount = totalAmount || updateOrder.totalAmount;
-      updateOrder.status = status || updateOrder.save;
+      updateOrder.status = status || updateOrder.status;
 
       await updateOrder.save();
 
