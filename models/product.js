@@ -2,24 +2,24 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
   {
-    productID:  String,
-      
-    name:  String,
-      
+    productID: String,
+
+    name: String,
+
     description: String,
-      
-    price:  Number,
-      
+
+    price: Number,
+
     stock: Number,
-      
-   categoryID: {
-     type: mongoose.Schema.Types.ObjectId, //  Reference to the Category model
-     ref: "category", 
+
+    categoryID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "category",
       required: true,
     },
   },
   {
-    timestamps: true, 
+    timestamps: true,
   }
 );
 

@@ -21,13 +21,13 @@ async function getById(req, res) {
 }
 
 async function create(req, res) {
-  const{ id, name, description, festivity} = req.body;
+  const { id, name, description, festivity } = req.body;
   try {
     const newCategory = await categoryModel.create({
-      id,
       name,
       description,
       festivity,
+      isActive,
     });
     return res.status(201).json(newCategory);
   } catch (error) {
@@ -41,11 +41,11 @@ async function update(req, res) {
   if (categoryUpdate !== null) {
     const { id, name, description, festivity, season } = req.body;
 
-    categoryUpdate.id = id || categoryUpdate.id;
+    
     categoryUpdate.name = name || categoryUpdate.name;
     categoryUpdate.description = description || categoryUpdate.description;
     categoryUpdate.festivity = festivity || categoryUpdate.festivity;
-    categoryUpdate.season = season || categoryUpdate.season;
+    categoryUpdate.isActive = isActive || categoryUpdate.isActive;
 
     await categoryUpdate.save();
 
@@ -57,14 +57,13 @@ async function update(req, res) {
 
 async function deleted(req, res) {
   try {
-    const categoryId = req.params.id; // Get the category ID from the request parameters
+    const categoryId = req.params.id;
     const categoryDeleted = await categoryModel.findById(categoryId);
 
     if (!categoryDeleted) {
       return res.status(404).json({ message: "Categoría no encontrada" });
     }
 
-    // Delete the category from the database
     await categoryModel.deleteOne({ _id: categoryId });
 
     return res.json({
