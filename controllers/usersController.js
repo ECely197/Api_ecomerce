@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs"
 import User from "../models/User.js";
-
+import Role from "../models/Role.js";
 
 
 
@@ -26,19 +26,26 @@ async function getAll(req, res) {
   
   async function create(req, res) {
     try {
-      const { firstName, lastName, email, password, address, phone } = req.body;
-  
-      const newUser = await User.create({
-        firstName,
-        lastName,
+      const { username,  email, password, address, phone, roles} = req.body;
+      const rolesFound = await Role.find({ name: { $in: roles } });
+      const user = await User.create({
+        username,
         email,
         password,
         address,
         phone,
+        roles: rolesFound.map((role) => role._id),
 
       });
   
-      return res.status(201).json("User created!");
+      const savedUser = await user.save();
+
+      return res.status(200).json({
+        _id: savedUser._id,
+        username: savedUser.username,
+        email: savedUser.email,
+        roles: savedUser.roles,
+      });
     } catch (error) {
       console.log(error);
       return res.status(500).json("Internal server error");
@@ -49,9 +56,9 @@ async function getAll(req, res) {
     const userToUpdate = await User.findById(req.params.id);
   
     if (userToUpdate !== null) {
-      const { name, email, password, address, phone} = req.body;
+      const { username, email, password, address, phone} = req.body;
   
-      userToUpdate.name = name || userToUpdate.name;
+      userToUpdate.username = username || userToUpdate.username;
       userToUpdate.email = email || userToUpdate.email;
       userToUpdate.password = password || userToUpdate.password;
       userToUpdate.address = address || userToUpdate.address;

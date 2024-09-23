@@ -3,9 +3,8 @@ import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema(
   {
-    firstName:  String,
-      
-    lastName: String,
+    username:  String,
+   
       
     email:String,
     
@@ -14,20 +13,42 @@ const userSchema = mongoose.Schema(
     addres: String,
 
     phone: String,
+    
     deletedAt: {
       type: Date,
       default: null,
-    },},);
+    },
+    roles: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Role",
+      },
+    ],
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  },);
 
+ 
+ 
+  userSchema.statics.encryptPassword = async (password) => {
+    const salt = await bcrypt.genSalt(10);
+    return await bcrypt.hash(password, salt);
+  };
 userSchema.virtual("fullName").get(function () {
   return this.firstName + " " + this.lastName;
 });
 
 userSchema.pre("save", async function (next) {
-  const hash = await bcrypt.hash(this.password, 10);
-  this.password = hash;
+  const user = this;
+  if (!user.isModified("password")) {
+    return next();
+  }
+  const hash = await bcrypt.hash(user.password, 10);
+  user.password = hash;
   next();
-});
+})
 
 const User = mongoose.model("User", userSchema);
 
