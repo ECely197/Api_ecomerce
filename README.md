@@ -138,6 +138,21 @@ We welcome contributions! To contribute, please follow these steps:
 4. Push to the branch (`git push origin feature/awesome-feature`).
 5. Open a pull request.
 
+## Product Seeder
+
+The Product Seeder script is designed to populate the database with initial product data for the eCommerce API. Here's a brief overview of its functionality:
+
+1. **Database Connection**: Establishes a connection to the MongoDB database using the `connectDB` function.
+2. **Delete Existing Products**: (Optional) Clears the existing product data to prevent duplicates or outdated entries.
+3. **Insert New Products**: Inserts a predefined list of products into the database using `insertMany`.
+4. **Logging**: Outputs the details of the seeded products to the console for confirmation.
+5. **Error Handling**: Captures any errors that occur during the process and logs them, exiting the script with a failure status if necessary.
+
+To run the seeder, execute the following command in your terminal:
+```bash
+node seeders/productSeeder.js
+
+
 ## License
 
 This project is licensed under the BIT License. See the [LICENSE](LICENSE) file for details.

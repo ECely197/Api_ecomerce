@@ -42,7 +42,7 @@ export const create = async (req, res) => {
       price,
       stock,
       categoryID,
-      imagePath, // Save the image path
+      imagePath, 
     });
 
     console.log("Product successfully created");
@@ -74,7 +74,7 @@ export const update = async (req, res) => {
       price: price || productToUpdate.price,
       stock: stock || productToUpdate.stock,
       categoryID: categoryID || productToUpdate.categoryID,
-      imagePath: req.file ? req.file.path : productToUpdate.imagePath, // Update image path if a new file is uploaded
+      imagePath: req.file ? req.file.path : productToUpdate.imagePath,
     });
 
     await productToUpdate.save();
@@ -109,10 +109,3 @@ export const destroy = async (req, res) => {
   }
 };
 
-export default {
-  getAll: getAll,
-  getById: getById,
-  create: create,
-  update: update,
-  destroy: destroy,
-};
