@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 
-<<<<<<< HEAD
 const userSchema = mongoose.Schema(
   {
     username:  String,
@@ -30,25 +29,6 @@ const userSchema = mongoose.Schema(
     timestamps: true,
     versionKey: false,
   },);
-=======
-const userSchema = mongoose.Schema({
-  firstName: String,
-
-  lastName: String,
-
-  email: String,
-
-  password: String,
-
-  addres: String,
-
-  phone: String,
-  deletedAt: {
-    type: Date,
-    default: null,
-  },
-});
->>>>>>> 4131663a956a3ab2b1086cd97aadc9764f2df134
 
  
  
