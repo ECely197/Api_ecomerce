@@ -4,7 +4,6 @@ import connectDB from "./config/database.js";
 import userRoutes from "./routes/userRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
-import pedidoRoutes from "./routes/pedidoRoutes.js";
 import authRoutes from "./routes/auth.routes.js"
 import {createRoles} from "./libs/initialSetup.js"
 import orderRoutes from "./routes/orderRoutes.js";
@@ -19,7 +18,6 @@ connectDB();
 app.use(userRoutes);
 app.use(categoryRoutes);
 app.use(productRoutes);
-app.use(pedidoRoutes);
 app.use(authRoutes)
 app.use(orderRoutes);
 

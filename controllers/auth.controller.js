@@ -7,15 +7,15 @@ import bcrypt from "bcryptjs"
 import connectDB from "../config/database.js";
 const app = express();
 app.use(express.json());
-connectDB();
+
 
 export const token = async (req, res) => {
   try {
-    const { usarName, email, password, roles } = req.body;
+    const { name, email, password, roles } = req.body;
 
     // Creating a new User Object
     const newUser = new User({
-      usarName,
+      name,
       email,
       password,
     });
