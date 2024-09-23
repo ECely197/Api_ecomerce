@@ -27,7 +27,13 @@ export const getById = async (req, res) => {
 
 export const create = async (req, res) => {
   try {
+    console.log("Request body:", req.body); // Log request body
+    console.log("Uploaded file:", req.file); // Log uploaded file details
+
     const { productID, name, description, price, stock, categoryID } = req.body;
+
+    // Check if a file was uploaded
+    const imagePath = req.file ? req.file.path : null;
 
     const newProduct = await Product.create({
       productID,
@@ -36,13 +42,12 @@ export const create = async (req, res) => {
       price,
       stock,
       categoryID,
+      imagePath, // Save the image path
     });
 
-    console.log("product succesfully created ");
+    console.log("Product successfully created");
 
-    return res
-      .status(201)
-      .json({ message: "Product created successfully", product: newProduct });
+    return res.status(201).json({ message: "Product created successfully", product: newProduct });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error" });
@@ -51,14 +56,17 @@ export const create = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
+    // Find the product to update by ID
     const productToUpdate = await Product.findById(req.params.id);
 
+    // Check if the product exists and is not deleted
     if (!productToUpdate || productToUpdate.deletedAt) {
       return res.status(404).json({ message: "Product not found" });
     }
 
     const { productID, name, description, price, stock, categoryID } = req.body;
 
+    // Update the product's properties
     Object.assign(productToUpdate, {
       productID: productID || productToUpdate.productID,
       name: name || productToUpdate.name,
@@ -66,6 +74,7 @@ export const update = async (req, res) => {
       price: price || productToUpdate.price,
       stock: stock || productToUpdate.stock,
       categoryID: categoryID || productToUpdate.categoryID,
+      imagePath: req.file ? req.file.path : productToUpdate.imagePath, // Update image path if a new file is uploaded
     });
 
     await productToUpdate.save();
