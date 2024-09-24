@@ -3,17 +3,16 @@ import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema(
   {
-    name:  String,
-   
-      
-    email:String,
-    
+    name: String,
+
+    email: String,
+
     password: String,
-     
+
     addres: String,
 
     phone: String,
-    
+
     deletedAt: {
       type: Date,
       default: null,
@@ -28,14 +27,13 @@ const userSchema = mongoose.Schema(
   {
     timestamps: true,
     versionKey: false,
-  },);
+  }
+);
 
- 
- 
-  userSchema.statics.encryptPassword = async (password) => {
-    const salt = await bcrypt.genSalt(10);
-    return await bcrypt.hash(password, salt);
-  };
+userSchema.statics.encryptPassword = async (password) => {
+  const salt = await bcrypt.genSalt(10);
+  return await bcrypt.hash(password, salt);
+};
 userSchema.virtual("fullName").get(function () {
   return this.firstName + " " + this.lastName;
 });
@@ -48,7 +46,7 @@ userSchema.pre("save", async function (next) {
   const hash = await bcrypt.hash(user.password, 10);
   user.password = hash;
   next();
-})
+});
 
 const User = mongoose.model("User", userSchema);
 

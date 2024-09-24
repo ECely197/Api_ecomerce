@@ -41,7 +41,6 @@ async function update(req, res) {
   if (categoryUpdate !== null) {
     const { id, name, description, festivity, season } = req.body;
 
-    
     categoryUpdate.name = name || categoryUpdate.name;
     categoryUpdate.description = description || categoryUpdate.description;
     categoryUpdate.festivity = festivity || categoryUpdate.festivity;

@@ -1,6 +1,6 @@
 import "dotenv/config";
-import categoryModel from "../models/ModelCategory"
-import connectDB from "../config/database";
+import categoryModel from "../models/ModelCategory.js"
+import connectDB from "../config/database.js";
 
 connectDB();
 

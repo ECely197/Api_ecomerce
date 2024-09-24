@@ -1,13 +1,12 @@
-import express from "express"
+import express from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import Role from "../models/Role.js";
 import { SECRET } from "../config.js";
-import bcrypt from "bcryptjs"
+import bcrypt from "bcryptjs";
 import connectDB from "../config/database.js";
 const app = express();
 app.use(express.json());
-
 
 export const token = async (req, res) => {
   try {
@@ -20,7 +19,6 @@ export const token = async (req, res) => {
       password,
     });
 
-    // checking for roles
     if (roles) {
       const foundRoles = await Role.find({ name: { $in: roles } });
       newUser.roles = foundRoles.map((role) => role._id);
@@ -29,17 +27,11 @@ export const token = async (req, res) => {
       newUser.roles = [role._id];
     }
 
-    // Saving the User Object in Mongodb
     const savedUser = await newUser.save();
 
-    // Create a token
-    
     const token = jwt.sign({ id: savedUser._id }, process.env.JWT_SECRET);
-    
-   return res.status(200).json({token})
-  
 
-    
+    return res.status(200).json({ token });
   } catch (error) {
     return res.status(500).json(error.message);
   }
@@ -47,14 +39,15 @@ export const token = async (req, res) => {
 
 export const signinHandler = async (req, res) => {
   try {
-    // Request body email can be an email or username
     const userFound = await User.findOne({ email: req.body.email }).populate(
       "roles"
     );
 
     if (!userFound) return res.status(400).json({ message: "User Not Found" });
 
-    const matchPassword = await bcrypt.comparePassword( req.body.password,userFound.password
+    const matchPassword = await bcrypt.comparePassword(
+      req.body.password,
+      userFound.password
     );
 
     if (!matchPassword)
@@ -63,9 +56,7 @@ export const signinHandler = async (req, res) => {
         message: "Invalid Password",
       });
 
-    const token = jwt.sign({ id: userFound._id }, process.env.JWT_SECRET, {
-
-    });
+    const token = jwt.sign({ id: userFound._id }, process.env.JWT_SECRET, {});
 
     res.json({ token });
   } catch (error) {

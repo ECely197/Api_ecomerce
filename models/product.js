@@ -12,7 +12,7 @@ const productSchema = new mongoose.Schema(
       ref: "category",
       required: true,
     },
-    imagePath: String, 
+    imagePath: String,
   },
   {
     timestamps: true,

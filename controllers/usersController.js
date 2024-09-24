@@ -3,8 +3,6 @@ import User from "../models/User.js";
 
 import Role from "../models/Role.js";
 
-
-
 async function getAll(req, res) {
   try {
     const users = await User.find({ deletedAt: null });
@@ -14,36 +12,33 @@ async function getAll(req, res) {
     return res.status(404).json("Usuarios no encontrados");
   }
 }
-  
-  async function create(req, res) {
-    try {
-      const { username,  email, password, address, phone, roles} = req.body;
-      const rolesFound = await Role.find({ name: { $in: roles } });
-      const user = await User.create({
-        username,
-        email,
-        password,
-        address,
-        phone,
-        roles: rolesFound.map((role) => role._id),
 
-      });
-  
-      const savedUser = await user.save();
+async function create(req, res) {
+  try {
+    const { username, email, password, address, phone, roles } = req.body;
+    const rolesFound = await Role.find({ name: { $in: roles } });
+    const user = await User.create({
+      username,
+      email,
+      password,
+      address,
+      phone,
+      roles: rolesFound.map((role) => role._id),
+    });
 
-      return res.status(200).json({
-        _id: savedUser._id,
-        username: savedUser.username,
-        email: savedUser.email,
-        roles: savedUser.roles,
-      });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json("Internal server error");
-    }
+    const savedUser = await user.save();
+
+    return res.status(200).json({
+      _id: savedUser._id,
+      username: savedUser.username,
+      email: savedUser.email,
+      roles: savedUser.roles,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json("Internal server error");
   }
-  
- 
+}
 
 async function getById(req, res) {
   try {
@@ -54,7 +49,6 @@ async function getById(req, res) {
     return res.status(404).json("Usuario no encontrado");
   }
 }
-
 
 async function update(req, res) {
   const userToUpdate = await User.findById(req.params.id);
@@ -91,6 +85,4 @@ export default {
   create: create,
   update: update,
   destroy: destroy,
-} 
-
-
+};
