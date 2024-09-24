@@ -15,7 +15,7 @@ async function getAll(req, res) {
 
 async function create(req, res) {
   try {
-    const { username, email, password, address, phone, roles } = req.body;
+    const { name, email, password, address, phone, roles } = req.body;
     const rolesFound = await Role.find({ name: { $in: roles } });
     const user = await User.create({
       name,
