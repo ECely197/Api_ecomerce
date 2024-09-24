@@ -18,7 +18,7 @@ async function create(req, res) {
     const { username, email, password, address, phone, roles } = req.body;
     const rolesFound = await Role.find({ name: { $in: roles } });
     const user = await User.create({
-      username,
+      name,
       email,
       password,
       address,
